@@ -57,3 +57,17 @@ Route::get('/logout', 'Front@logout');
 Route::get('/cart', 'Front@cart');
 Route::get('/checkout', 'Front@checkout');
 Route::get('/search/{query}', 'Front@search');
+
+/***
+
+Testing templates
+
+***/
+
+Route::get('blade', function() {
+    // return view('page');
+    $drinks = array('Wine','Beer','Vodka');
+	return view('page',array('name' 	=> 'KingGeneral was here',
+							 'day'		=> 'Saturday',
+							 'drinks'	=> $drinks));
+});
