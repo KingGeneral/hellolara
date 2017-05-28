@@ -6,6 +6,8 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
+        "doctrine/dbal": "^2.5",
+        "gloudemans/shoppingcart": "^2.3",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
         "sven/artisan-view": "^1.3"
