@@ -14,6 +14,7 @@ class Hello extends Controller
     public function index()
     {
         //
+        return 'Hello Controller';
     }
 
     /**

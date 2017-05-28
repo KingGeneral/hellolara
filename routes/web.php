@@ -14,3 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/hello',function(){
+	return 'Hello';
+});
+
+Route::get('/hellocontroller','Hello@index'); //seek ctr hello
