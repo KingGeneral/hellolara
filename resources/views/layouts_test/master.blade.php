@@ -3,13 +3,14 @@
         <title>@yield('title')</title>
     </head>
     <body>
+        I am master
+
         @section('sidebar')
             This is the master sidebar.
         @show
 
         <div class="container">
             @yield('content')
-        </div>
+        </div>        
     </body>
 </html>
-

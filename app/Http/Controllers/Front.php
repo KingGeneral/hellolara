@@ -15,7 +15,8 @@ class Front extends Controller
      **/
     public function index()
     {
-    	return 'index';
+    	// return 'index';
+        return view('page.home', array('page' => 'home'));
     }
 
     /**
@@ -27,7 +28,8 @@ class Front extends Controller
      **/
     public function products()
     {
-    	return 'products';
+    	// return 'products';
+        return view('page.products', array('page' => 'products'));
     }
 
     /**
@@ -39,7 +41,8 @@ class Front extends Controller
      **/
     public function product_details($id)
     {
-    	return 'product_details';
+    	// return 'product_details';
+        return view('page.product_details', array('page' => 'products'));
     }
 
     /**
@@ -51,7 +54,8 @@ class Front extends Controller
      **/
     public function product_categories()
     {
-    	return 'product_categories';
+    	// return 'product_categories';
+        return view('page.product_categories', array('page' => 'products'));
     }
 
     /**
@@ -61,9 +65,10 @@ class Front extends Controller
      * @return 'product brands page'
      * @author ztm
      **/
-    public function product_brands()
+    public function product_brands($name, $category = null)
     {
-    	return 'product_brands';
+    	// return 'product_brands';
+        return view('page.product_brands', array('page' => 'products'));
     }
 
     /**
@@ -75,7 +80,8 @@ class Front extends Controller
      **/
     public function blog()
     {
-    	return 'blog';
+    	// return 'blog';
+        return view('page.blog', array('page' => 'blog'));
     }
 
     /**
@@ -87,7 +93,8 @@ class Front extends Controller
      **/
     public function blog_post($id)
     {
-    	return 'blog_post';
+    	// return 'blog_post';
+        return view('page.blog_post', array('page' => 'blog'));
     }
 
     /**
@@ -99,7 +106,8 @@ class Front extends Controller
      **/
     public function contact_us()
     {
-    	return 'contact_us';
+    	// return 'contact_us';
+        return view('page.contact_us', array('page' => 'contact_us'));
     }
 
     /**
@@ -111,7 +119,8 @@ class Front extends Controller
      **/
     public function login()
     {
-    	return 'login';
+    	// return 'login';
+        return view('page.login', array('page' => 'home'));
     }
 
     /**
@@ -123,7 +132,8 @@ class Front extends Controller
      **/
     public function logout()
     {
-    	return 'logout';
+    	// return 'logout';
+        return view('page.login', array('page' => 'home'));
     }
 
     /**
@@ -135,7 +145,8 @@ class Front extends Controller
      **/
     public function cart()
     {
-    	return 'cart';
+    	// return 'cart';
+        return view('page.cart', array('page' => 'home'));
     }
 
     /**
@@ -147,7 +158,8 @@ class Front extends Controller
      **/
     public function checkout()
     {
-    	return 'checkout';
+    	// return 'checkout';
+        return view('page.checkout', array('page' => 'home'));
     }
 
     /**
@@ -159,7 +171,8 @@ class Front extends Controller
      **/
     public function search($query)
     {
-    	return 'search';
+    	// return 'search';
+        return view('page.products', array('page' => 'products'));
     }
 
 }
