@@ -13,7 +13,7 @@ class Hello extends Controller
      */
     public function index()
     {
-        //
+        //return direct echo
         return 'Hello Controller';
     }
 
@@ -44,9 +44,10 @@ class Hello extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($name)
     {
-        //
+        //showing name
+        return view('hello.hello', array('name' => $name));
     }
 
     /**

@@ -19,4 +19,5 @@ Route::get('/hello',function(){
 	return 'Hello';
 });
 
-Route::get('/hellocontroller','Hello@index'); //seek ctr hello
+Route::get('/hello/controller','Hello@index'); //seek ctr hello
+Route::get('/hello/{name}','Hello@show'); //goto hello/show
