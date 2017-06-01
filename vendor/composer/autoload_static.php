@@ -312,6 +312,7 @@ class ComposerStaticInit67c23c8d5dfd9e01609b7c344fe996da
     );
 
     public static $classMap = array (
+        'AddDeptIdInEmployees' => __DIR__ . '/../..' . '/database/migrations/2017_05_30_141800_add_dept_id_in_employees.php',
         'AddGenderToEmployess' => __DIR__ . '/../..' . '/database/migrations/2017_05_28_145850_add_gender_to_employess.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
@@ -370,6 +371,7 @@ class ComposerStaticInit67c23c8d5dfd9e01609b7c344fe996da
         'DeepCopy\\TypeFilter\\Spl\\SplDoublyLinkedList' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/TypeFilter/Spl/SplDoublyLinkedList.php',
         'DeepCopy\\TypeFilter\\TypeFilter' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/TypeFilter/TypeFilter.php',
         'DeepCopy\\TypeMatcher\\TypeMatcher' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/TypeMatcher/TypeMatcher.php',
+        'Depts' => __DIR__ . '/../..' . '/database/migrations/2017_05_30_141017_depts.php',
         'Doctrine\\Common\\Annotations\\Annotation' => __DIR__ . '/..' . '/doctrine/annotations/lib/Doctrine/Common/Annotations/Annotation.php',
         'Doctrine\\Common\\Annotations\\AnnotationException' => __DIR__ . '/..' . '/doctrine/annotations/lib/Doctrine/Common/Annotations/AnnotationException.php',
         'Doctrine\\Common\\Annotations\\AnnotationReader' => __DIR__ . '/..' . '/doctrine/annotations/lib/Doctrine/Common/Annotations/AnnotationReader.php',
