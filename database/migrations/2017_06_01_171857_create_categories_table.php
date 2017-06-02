@@ -13,7 +13,14 @@ class CreateCategoriesTable extends Migration
      */
     public function up()
     {
-        //
+        //create
+        Schema::create('categories', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name',255)->unique();
+            $table->timestamps();
+            $table->string('create_at_ip');
+            $table->string('updated_at_ip');
+        });
     }
 
     /**
@@ -23,6 +30,7 @@ class CreateCategoriesTable extends Migration
      */
     public function down()
     {
-        //
+        //drop
+        Schema::drop('categories');
     }
 }
