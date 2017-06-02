@@ -11,6 +11,17 @@ class BrandsTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('brands')->insert([
+        						'name'	=> 'ACNE'
+        					]);
+        DB::table('brands')->insert([
+        						'name'	=> 'ZONETM'
+        					]);
+        DB::table('brands')->insert([
+        						'name'	=> 'KINGGENERAL'
+        					]);
+        DB::table('brands')->insert([
+        						'name'	=> 'ZERO'
+        					]);
     }
 }
