@@ -2,7 +2,7 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+// use Illuminate\Database\Eloquent\Model;
 
 class Category extends BaseModel 
 {
@@ -11,5 +11,8 @@ class Category extends BaseModel
     protected $table = 'categories'; //defines the name of the table
     //public $timestamps = false; //set the following property off.
 
-    protected $fillable = array('name', 'created_at_ip', 'updated_at_ip'); //defines field names that can be mass assigned.  This is a security measure that ensures only authorized fieldnames are affected.
+    // protected $fillable = array('name', 'created_at_ip', 'updated_at_ip'); //defines field names that can be mass assigned.  This is a security measure that ensures only authorized fieldnames are affected.
+    protected $fillable = [
+    	'name', 'created_at_ip', 'updated_at_ip'
+    ];
 }

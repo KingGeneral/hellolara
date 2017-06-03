@@ -71,3 +71,33 @@ Route::get('blade', function() {
 							 'day'		=> 'Saturday',
 							 'drinks'	=> $drinks));
 });
+
+Route::get('/insert', function() {
+    
+    $category = new App\Category();
+
+   	// App\Category::created(array('name' => 'Music'));
+    $id = $category->insert(array(
+                                'name'          => str_random(10),
+                                'created_at_ip' => Request::ip(),
+                                'updated_at_ip' => ''
+                                ));
+
+    if($id){
+        return 'category added success inserted';
+    }else{
+        return 'failed to insert';
+    }
+});
+
+Route::get('/read', function() {
+    $category = new App\Category();
+
+    $data = $category->all(array('name','id'));
+
+    //dd($data);
+
+    foreach ($data as $list) {
+    	echo $list->id.' - '.$list->name.' | <br/>';
+    }
+});
