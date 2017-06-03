@@ -79,6 +79,8 @@ Route::get('/insert', function() {
    	// App\Category::created(array('name' => 'Music'));
     $id = $category->insert(array(
                                 'name'          => str_random(10),
+                                // 'created_at'    => NULL,
+                                // 'updated_at'    => time(),
                                 'created_at_ip' => Request::ip(),
                                 'updated_at_ip' => ''
                                 ));

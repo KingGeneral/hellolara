@@ -33,6 +33,8 @@ class AddDeptIdInEmployees extends Migration
     {
         Schema::table('employees', function (Blueprint $table) {
             //delete column dept_id
+            // $table->dropForeign('dept_id_foreign');
+            $table->dropForeign('employees_dept_id_foreign');
             $table->dropColumn('dept_id');
         });
     }

@@ -17,7 +17,18 @@ class CreateCategoriesTable extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name',255)->unique();
-            $table->timestamps();
+
+            // laravel give null , idk why
+            // $table->nullableTimestamps();
+            // $table->timestamps();
+
+            // cause laravel given null so this is a fix
+            // https://stackoverflow.com/questions/18067614/how-can-i-set-the-default-value-of-a-timestamp-column-to-the-current-timestamp-w
+            // or
+            // https://laracasts.com/discuss/channels/eloquent/why-table-timestamps-puts-on-update-current-timestamp-on-the-created-at-column
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
+            
             $table->string('created_at_ip');
             $table->string('updated_at_ip');
         });

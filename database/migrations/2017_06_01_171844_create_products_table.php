@@ -22,7 +22,9 @@ class CreateProductsTable extends Migration
             $table->integer('price');
             $table->integer('category_id');
             $table->integer('brand_id');
-            $table->timestamps();
+            // $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
             $table->string('created_at_ip');
             $table->string('updated_at_ip');
         });
