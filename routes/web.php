@@ -52,10 +52,16 @@ Route::get('/blog', 'Front@blog');
 Route::get('/blog/post', 'Front@blog_post');
 
 Route::get('/contact-us', 'Front@contact_us');
+
 Route::get('/login', 'Front@login');
 Route::get('/logout', 'Front@logout');
+
 Route::get('/cart', 'Front@cart');
+Route::get('/cart-remove/{id}', 'Front@remove_cart');
+Route::get('/clear-cart', 'Front@remove_all_cart');
+
 Route::get('/checkout', 'Front@checkout');
+
 Route::get('/search/{query}', 'Front@search');
 
 /***
