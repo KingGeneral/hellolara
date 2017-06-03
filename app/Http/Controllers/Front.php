@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+// use Illuminate\Support\Facades\Request; //deprecated
+// use Illuminate\Http\Request; // used to access HTTP verbs data
+use Request;
+
+// use Illuminate\Support\Facades\Redirect; //deprecated
+use Illuminate\Routing\Redirector;// used to redirect after performing an action that does not need to display 
 
 // imports the App namespace
 use App\Brand;
 use App\Category;
 use App\Product;
+
+use Cart; // used to hold the items in the shopping cart
 
 class Front extends Controller
 {	
@@ -252,8 +259,85 @@ class Front extends Controller
      * @author ztm
      **/
     public function cart()
-    {
+    {   
     	// return 'cart';
+
+        // checks if the request uses the POST HTTP verb
+        if(request::isMethod('post')){
+            // retrieve the value of productid
+            $product_id = Request::get('product_id');
+
+            $product    = Products::find($product_id);
+            Cart::add(
+                array('id'      => $product_id,
+                      'qty'     => 1,
+                      'price'   => $product->price
+                )
+            );
+        }
+
+        //increment the quantity
+        if (Request::get('product_id') && (Request::get('increment')) == 1) {
+            $rowId = Cart::search(array('id' => Request::get('product_id')));
+            $item = Cart::get($rowId[0]);
+
+            Cart::update($rowId[0], $item->qty + 1);
+        }
+
+        //decrease the quantity
+        if (Request::get('product_id') && (Request::get('decrease')) == 1) {
+            $rowId = Cart::search(array('id' => Request::get('product_id')));
+            $item = Cart::get($rowId[0]);
+
+            Cart::update($rowId[0], $item->qty - 1);
+        }
+
+
+        $cart = Cart::content();
+
+        return view(
+            'page.cart', 
+            array('title'       => 'Welcome',
+                  'description' => '',
+                  'page'        => 'home',
+                  'cart'        => $cart
+            )
+        );
+    }
+
+    /**
+     * remove_cart function
+     * remove_cart contents
+     *
+     * @return 'cart page'
+     * @author ztm
+     **/
+    public function remove_cart($id)
+    {   
+
+        $rowId = Cart::search(array('id' => Request::get('product_id')));
+        Cart::remove($rowId[0]);
+
+        return view(
+            'page.cart', 
+            array('title'       => 'Welcome',
+                  'description' => '',
+                  'page'        => 'home'
+            )
+        );
+    }
+
+    /**
+     * remove_all_cart function
+     * remove_all_cart contents
+     *
+     * @return 'cart page'
+     * @author ztm
+     **/
+    public function remove_all_cart($id)
+    {   
+        Cart::destroy();
+
         return view(
             'page.cart', 
             array('title'       => 'Welcome',
