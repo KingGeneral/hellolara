@@ -76,11 +76,11 @@ Route::get('/insert', function() {
     
     $category = new App\Category();
 
+    // idk why this in 5.4 cannot run
    	// App\Category::created(array('name' => 'Music'));
+
     $id = $category->insert(array(
                                 'name'          => str_random(10),
-                                // 'created_at'    => NULL,
-                                // 'updated_at'    => time(),
                                 'created_at_ip' => Request::ip(),
                                 'updated_at_ip' => ''
                                 ));
@@ -100,6 +100,35 @@ Route::get('/read', function() {
     //dd($data);
 
     foreach ($data as $list) {
-    	echo $list->id.' - '.$list->name.' | <br/>';
+    	echo '| '.$list->id.' - '.$list->name.' | <br/>';
+    }
+});
+
+Route::get('/update/{id}', function($id) {
+    //check id
+    // $category = App\Category::find(1);
+    $category = App\Category::find($id);
+
+    //update name from $id
+    $category->name = 'Hello - updated'.$id;
+    $category->save(); //save
+
+    //get all data from category
+    $data = $category->all(array('name','id'));
+    foreach ($data as $list) {
+        echo '| '.$list->id.' - '.$list->name.' | <br/>';
+    }
+});
+
+Route::get('/delete/{id}', function($id) {
+    //check
+    // $category = App\Category::find(1);
+    $category = App\Category::find($id);
+    $category->delete();
+
+    //get all data from category
+    $data = $category->all(array('name','id'));
+    foreach ($data as $list) {
+        echo '| '.$list->id.' - '.$list->name.' | <br/>';
     }
 });
