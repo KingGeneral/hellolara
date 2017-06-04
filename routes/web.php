@@ -116,7 +116,8 @@ Route::get('/update/{id}', function($id) {
     $category = App\Category::find($id);
 
     //update name from $id
-    $category->name = 'Hello - updated'.$id;
+    $category->name          = 'Hello - updated'.$id;
+    $category->updated_at_ip = Request::ip();
     $category->save(); //save
 
     //get all data from category
@@ -138,3 +139,9 @@ Route::get('/delete/{id}', function($id) {
         echo '| '.$list->id.' - '.$list->name.' | <br/>';
     }
 });
+
+// auth start
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
