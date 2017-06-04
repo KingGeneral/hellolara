@@ -64,6 +64,12 @@ Route::get('/checkout', 'Front@checkout');
 
 Route::get('/search/{query}', 'Front@search');
 
+// auth start
+
+//Auth::routes();
+//Route::get('/home', 'HomeController@index')->name('home');
+
+
 /***
 
 Testing templates
@@ -139,9 +145,3 @@ Route::get('/delete/{id}', function($id) {
         echo '| '.$list->id.' - '.$list->name.' | <br/>';
     }
 });
-
-// auth start
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
