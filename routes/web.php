@@ -53,15 +53,27 @@ Route::get('/blog/post', 'Front@blog_post');
 
 Route::get('/contact-us', 'Front@contact_us');
 
-Route::get('/login', 'Front@login');
+//login logout auth routes
+Route::get('auth/login', 'Front@login'); //displays the login and register
+Route::post('auth/login', 'Front@authenticate'); //actual user authentication
 Route::get('/logout', 'Front@logout');
 
+//register
+Route::post('/register', 'Front@register');
+
+//carts
 Route::get('/cart', 'Front@cart');
 Route::get('/cart-remove/{id}', 'Front@remove_cart');
 Route::get('/clear-cart', 'Front@remove_all_cart');
 
-Route::get('/checkout', 'Front@checkout');
+//make this protected only can be accessed after auth
+// Route::get('/checkout', 'Front@checkout');
+Route::get('/checkout', [
+    'middleware'    => 'auth', //will check if a user is logged in, if not redirected to /auth/login page
+    'uses'          => 'Front@checkout'
+]);
 
+//search
 Route::get('/search/{query}', 'Front@search');
 
 // auth start

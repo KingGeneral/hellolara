@@ -9,12 +9,17 @@ use Request;
 // use Illuminate\Support\Facades\Redirect; //deprecated
 use Illuminate\Routing\Redirector;// used to redirect after performing an action that does not need to display 
 
+//cart
 // imports the App namespace
 use App\Brand;
 use App\Category;
 use App\Product;
 
 use Cart; // used to hold the items in the shopping cart
+
+//importing the auth 
+use App\User; // imports the User model namespace
+use Illuminate\Support\Facades\Auth; // imports the Auth namespace
 
 class Front extends Controller
 {	
@@ -220,6 +225,39 @@ class Front extends Controller
      * @return 'login page'
      * @author ztm
      **/
+    public function register() {
+        if (Request::isMethod('post')) {
+            // creates a user record
+            User::create([
+                        'name' => Request::get('name'),
+                        'email' => Request::get('email'),
+                        'password' => bcrypt(Request::get('password')),
+            ]);
+        } 
+        
+        // redirects the user to the login page after creating the user 
+        return Redirect::away('login');
+    }
+
+    public function authenticate() {
+        // try login using the supplied email address and password
+        if (Auth::attempt(['email' => Request::get('email'), 'password' => Request::get('password')])) {
+            // success
+            // redirects the logged in user to a protected page
+            return redirect()->intended('checkout');
+        } else {
+            // fail to login
+            return view('login', array('title' => 'Welcome', 'description' => '', 'page' => 'home'));
+        }
+    }
+
+    /**
+     * login function
+     * Login user
+     *
+     * @return 'login page'
+     * @author ztm
+     **/
     public function login()
     {
     	// return 'login';
@@ -242,6 +280,9 @@ class Front extends Controller
     public function logout()
     {
     	// return 'logout';
+
+        Auth::logout(); // calls the logout method
+
         return view(
             'page.login', 
             array('title'       => 'Welcome',
