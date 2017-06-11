@@ -20,7 +20,9 @@ class CreateDrinkTable extends Migration
             $table->text('comments')->nullable(); //accept null values
             $table->integer('rating');
             $table->date('brew_date');
-            $table->timestamps(); //automatically create created_at and updated_at
+            //$table->timestamps(); //automatically create created_at and updated_at
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
         });
     }
 

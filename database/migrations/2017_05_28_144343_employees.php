@@ -19,7 +19,9 @@ class Employees extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('contact_number');
-            $table->timestamps();
+            // $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
         });
 
         //create an employees table and add 33 seed records using Faker Library

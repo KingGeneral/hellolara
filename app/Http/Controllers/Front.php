@@ -2,10 +2,47 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+// use Illuminate\Support\Facades\Request; //deprecated
+// use Illuminate\Http\Request; // used to access HTTP verbs data
+use Request;
+
+// use Illuminate\Support\Facades\Redirect; //deprecated
+use Illuminate\Routing\Redirector;// used to redirect after performing an action that does not need to display 
+
+//cart
+// imports the App namespace
+use App\Brand;
+use App\Category;
+use App\Product;
+
+use Cart; // used to hold the items in the shopping cart
+
+//importing the auth 
+use App\User; // imports the User model namespace
+use Illuminate\Support\Facades\Auth; // imports the Auth namespace
 
 class Front extends Controller
 {	
+
+    // common data to all the pages
+    var $brands;
+    var $categories;
+    var $products;
+
+    // title and meta description for search engine optimization
+    var $title;
+    var $description;
+
+    /**
+     * Construct
+     * @author ztm
+     **/
+    public function __construct() {
+        $this->brands = Brand::all(array('name'));
+        $this->categories = Category::all(array('name'));
+        $this->products = Product::all(array('id','name','price'));
+    }
+
 	/**
      * index function
      * Display home page
@@ -16,7 +53,16 @@ class Front extends Controller
     public function index()
     {
     	// return 'index';
-        return view('page.home', array('page' => 'home'));
+        return view(
+            'page.home', 
+            array('title'       => 'Welcome',
+                  'description' => '',
+                  'page'        => 'home',
+                  'brands'      => $this->brands, 
+                  'categories'  => $this->categories, 
+                  'products'    => $this->products
+            )
+        );
     }
 
     /**
@@ -29,7 +75,17 @@ class Front extends Controller
     public function products()
     {
     	// return 'products';
-        return view('page.products', array('page' => 'products'));
+        return view(
+            'page.products', 
+            array(
+                'title'         => 'Products Listing',
+                'description'   => '',
+                'page'          => 'products', 
+                'brands'        => $this->brands, 
+                'categories'    => $this->categories, 
+                'products'      => $this->products
+            )
+        );
     }
 
     /**
@@ -42,7 +98,17 @@ class Front extends Controller
     public function product_details($id)
     {
     	// return 'product_details';
-        return view('page.product_details', array('page' => 'products'));
+        return view(
+            'page.product_details', 
+            array('product'     => $product, 
+                  'title'       => $product->name,
+                  'description' => '',
+                  'page'        => 'products', 
+                  'brands'      => $this->brands, 
+                  'categories'  => $this->categories, 
+                  'products'    => $this->products
+            )
+        );
     }
 
     /**
@@ -55,7 +121,16 @@ class Front extends Controller
     public function product_categories()
     {
     	// return 'product_categories';
-        return view('page.product_categories', array('page' => 'products'));
+        return view(
+            'page.product_categories', 
+            array('title'       => 'Welcome',
+                  'description' => '',
+                  'page'        => 'products', 
+                  'brands'      => $this->brands, 
+                  'categories'  => $this->categories, 
+                  'products'    => $this->products
+            )
+        );
     }
 
     /**
@@ -68,8 +143,17 @@ class Front extends Controller
     public function product_brands($name, $category = null)
     {
     	// return 'product_brands';
-        return view('page.product_brands', array('page' => 'products'));
-    }
+        return view(
+            'page.product_brands', 
+            array('title'       => 'Welcome',
+                  'description' => '',
+                  'page'        => 'products', 
+                  'brands'      => $this->brands, 
+                  'categories'  => $this->categories, 
+                  'products'    => $this->products
+            )
+        );
+    }  
 
     /**
      * blog function
@@ -81,7 +165,16 @@ class Front extends Controller
     public function blog()
     {
     	// return 'blog';
-        return view('page.blog', array('page' => 'blog'));
+        return view(
+            'page.blog', 
+            array('title'       => 'Welcome',
+                  'description' => '',
+                  'page'        => 'blog', 
+                  'brands'      => $this->brands, 
+                  'categories'  => $this->categories, 
+                  'products'    => $this->products
+            )
+        );
     }
 
     /**
@@ -94,7 +187,16 @@ class Front extends Controller
     public function blog_post($id)
     {
     	// return 'blog_post';
-        return view('page.blog_post', array('page' => 'blog'));
+        return view(
+            'page.blog_post', 
+            array('title'       => 'Welcome',
+                  'description' => '',
+                  'page'        => 'blog', 
+                  'brands'      => $this->brands, 
+                  'categories'  => $this->categories, 
+                  'products'    => $this->products
+            )
+        );
     }
 
     /**
@@ -107,7 +209,46 @@ class Front extends Controller
     public function contact_us()
     {
     	// return 'contact_us';
-        return view('page.contact_us', array('page' => 'contact_us'));
+        return view(
+            'page.contact_us', 
+            array('title'       => 'Welcome',
+                  'description' => '',
+                  'page'        => 'contact_us'
+            )
+        );
+    }
+
+    /**
+     * login function
+     * Login user
+     *
+     * @return 'login page'
+     * @author ztm
+     **/
+    public function register() {
+        if (Request::isMethod('post')) {
+            // creates a user record
+            User::create([
+                        'name' => Request::get('name'),
+                        'email' => Request::get('email'),
+                        'password' => bcrypt(Request::get('password')),
+            ]);
+        } 
+        
+        // redirects the user to the login page after creating the user 
+        return Redirect::away('login');
+    }
+
+    public function authenticate() {
+        // try login using the supplied email address and password
+        if (Auth::attempt(['email' => Request::get('email'), 'password' => Request::get('password')])) {
+            // success
+            // redirects the logged in user to a protected page
+            return redirect()->intended('checkout');
+        } else {
+            // fail to login
+            return view('login', array('title' => 'Welcome', 'description' => '', 'page' => 'home'));
+        }
     }
 
     /**
@@ -120,7 +261,13 @@ class Front extends Controller
     public function login()
     {
     	// return 'login';
-        return view('page.login', array('page' => 'home'));
+        return view(
+            'page.login', 
+            array('title'       => 'Welcome',
+                  'description' => '',
+                  'page'        => 'home'
+            )
+        );
     }
 
     /**
@@ -133,7 +280,16 @@ class Front extends Controller
     public function logout()
     {
     	// return 'logout';
-        return view('page.login', array('page' => 'home'));
+
+        Auth::logout(); // calls the logout method
+
+        return view(
+            'page.login', 
+            array('title'       => 'Welcome',
+                  'description' => '',
+                  'page'        => 'home'
+            )
+        );
     }
 
     /**
@@ -144,9 +300,92 @@ class Front extends Controller
      * @author ztm
      **/
     public function cart()
-    {
+    {   
     	// return 'cart';
-        return view('page.cart', array('page' => 'home'));
+
+        // checks if the request uses the POST HTTP verb
+        if(request::isMethod('post')){
+            // retrieve the value of productid
+            $product_id = Request::get('product_id');
+
+            $product    = Products::find($product_id);
+            Cart::add(
+                array('id'      => $product_id,
+                      'qty'     => 1,
+                      'price'   => $product->price
+                )
+            );
+        }
+
+        //increment the quantity
+        if (Request::get('product_id') && (Request::get('increment')) == 1) {
+            $rowId = Cart::search(array('id' => Request::get('product_id')));
+            $item = Cart::get($rowId[0]);
+
+            Cart::update($rowId[0], $item->qty + 1);
+        }
+
+        //decrease the quantity
+        if (Request::get('product_id') && (Request::get('decrease')) == 1) {
+            $rowId = Cart::search(array('id' => Request::get('product_id')));
+            $item = Cart::get($rowId[0]);
+
+            Cart::update($rowId[0], $item->qty - 1);
+        }
+
+
+        $cart = Cart::content();
+
+        return view(
+            'page.cart', 
+            array('title'       => 'Welcome',
+                  'description' => '',
+                  'page'        => 'home',
+                  'cart'        => $cart
+            )
+        );
+    }
+
+    /**
+     * remove_cart function
+     * remove_cart contents
+     *
+     * @return 'cart page'
+     * @author ztm
+     **/
+    public function remove_cart($id)
+    {   
+
+        $rowId = Cart::search(array('id' => Request::get('product_id')));
+        Cart::remove($rowId[0]);
+
+        return view(
+            'page.cart', 
+            array('title'       => 'Welcome',
+                  'description' => '',
+                  'page'        => 'home'
+            )
+        );
+    }
+
+    /**
+     * remove_all_cart function
+     * remove_all_cart contents
+     *
+     * @return 'cart page'
+     * @author ztm
+     **/
+    public function remove_all_cart($id)
+    {   
+        Cart::destroy();
+
+        return view(
+            'page.cart', 
+            array('title'       => 'Welcome',
+                  'description' => '',
+                  'page'        => 'home'
+            )
+        );
     }
 
     /**
@@ -159,7 +398,13 @@ class Front extends Controller
     public function checkout()
     {
     	// return 'checkout';
-        return view('page.checkout', array('page' => 'home'));
+        return view(
+            'page.checkout', 
+            array('title'       => 'Welcome',
+                  'description' => '',
+                  'page'        => 'home'
+            )
+        );
     }
 
     /**
@@ -172,7 +417,13 @@ class Front extends Controller
     public function search($query)
     {
     	// return 'search';
-        return view('page.products', array('page' => 'products'));
+        return view(
+            'page.products', 
+            array('title'       => 'Welcome',
+                  'description' => '',
+                  'page'        => 'products'
+            )
+        );
     }
 
 }

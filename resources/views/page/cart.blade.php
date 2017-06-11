@@ -10,6 +10,7 @@
                     </ol>
                 </div>
                 <div class="table-responsive cart_info">
+                    @if(count($cart))
                     <table class="table table-condensed">
                         <thead>
                             <tr class="cart_menu">
@@ -22,58 +23,34 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($cart as $item)
                             <tr>
                                 <td class="cart_product">
                                     <a href=""><img src="images/cart/one.png" alt=""></a>
                                 </td>
                                 <td class="cart_description">
-                                    <h4><a href="">Colorblock Scuba</a></h4>
-                                    <p>Web ID: 1089772</p>
+                                    <h4><a href="">{{ $item->name }}</a></h4>
+                                    <p>Web ID: {{ $item->id }}</p>
                                 </td>
                                 <td class="cart_price">
-                                    <p>$59</p>
+                                    <p>${{ $item->price }}</p>
                                 </td>
                                 <td class="cart_quantity">
                                     <div class="cart_quantity_button">
-                                        <a class="cart_quantity_up" href=""> + </a>
-                                        <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-                                        <a class="cart_quantity_down" href=""> - </a>
+                                        <a class="cart_quantity_up" href="{{ url("cart?product_id=$item->id&increment=1") }}"> + </a>
+                                        <input class="cart_quantity_input" type="text" name="quantity" value="{{ $item->qty }}" autocomplete="off" size="2">
+                                        <a class="cart_quantity_down" href="{{ url("cart?product_id=$item->id&decrease=1") }}"> - </a>
                                     </div>
                                 </td>
                                 <td class="cart_total">
-                                    <p class="cart_total_price">$59</p>
+                                    <p class="cart_total_price">${{ $item->subtotal }}</p>
                                 </td>
                                 <td class="cart_delete">
-                                    <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
+                                    <a class="cart_quantity_delete" href="{{ url("/cart-remove/$item->id") }}"><i class="fa fa-times"></i></a>
                                 </td>
                             </tr>
-
-                            <tr>
-                                <td class="cart_product">
-                                    <a href=""><img src="images/cart/two.png" alt=""></a>
-                                </td>
-                                <td class="cart_description">
-                                    <h4><a href="">Colorblock Scuba</a></h4>
-                                    <p>Web ID: 1089772</p>
-                                </td>
-                                <td class="cart_price">
-                                    <p>$59</p>
-                                </td>
-                                <td class="cart_quantity">
-                                    <div class="cart_quantity_button">
-                                        <a class="cart_quantity_up" href=""> + </a>
-                                        <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-                                        <a class="cart_quantity_down" href=""> - </a>
-                                    </div>
-                                </td>
-                                <td class="cart_total">
-                                    <p class="cart_total_price">$59</p>
-                                </td>
-                                <td class="cart_delete">
-                                    <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
+                            @endforeach
+                            {{-- <tr>
                                 <td class="cart_product">
                                     <a href=""><img src="images/cart/three.png" alt=""></a>
                                 </td>
@@ -97,7 +74,11 @@
                                 <td class="cart_delete">
                                     <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
                                 </td>
-                            </tr>
+                            </tr> --}}
+                            
+                            @else
+                        <p>You have no items in the shopping cart</p>
+                        @endif
                         </tbody>
                     </table>
                 </div>
@@ -171,9 +152,9 @@
                                 <li>Cart Sub Total <span>$59</span></li>
                                 <li>Eco Tax <span>$2</span></li>
                                 <li>Shipping Cost <span>Free</span></li>
-                                <li>Total <span>$61</span></li>
+                                <li>Total <span>${{ Cart::total() }}</span></li>
                             </ul>
-                            <a class="btn btn-default update" href="{{url('cart')}}">Update</a>
+                            <a class="btn btn-default update" href="{{url('clear-cart')}}">Clear Cart</a>
                             <a class="btn btn-default check_out" href="{{url('checkout')}}">Check Out</a>
                         </div>
                     </div>
