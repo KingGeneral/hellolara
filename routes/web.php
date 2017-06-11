@@ -78,13 +78,13 @@ Route::get('/search/{query}', 'Front@search');
 
 // auth start
 
-//Auth::routes();
-//Route::get('/home', 'HomeController@index')->name('home');
+// Auth::routes();
+// Route::get('/home', 'HomeController@index')->name('home');
 
 
 /***
 
-Testing templates
+Testing templates CRUD
 
 ***/
 
@@ -157,3 +157,45 @@ Route::get('/delete/{id}', function($id) {
         echo '| '.$list->id.' - '.$list->name.' | <br/>';
     }
 });
+
+// to use this API v1
+/*
+    you need to use auth in line 81 and 82
+    enable it, and register there
+*/
+
+//get all existing category
+Route::get('/api/v1/categories/{id?}', [
+    'middleware' => 'auth.basic',
+    function($id = null) {
+        //get categories
+    if ($id == null) {
+        $categories = App\Category::all(array('id', 'name', 'created_at_ip'));
+    } else {
+        $categories = App\Category::find($id, array('id', 'name', 'created_at_ip'));
+    }
+    return Response::json(array(
+                'error' => false,
+                'categories' => $categories,
+                'status_code' => 200
+            ));
+    }
+]);
+
+//get all registered user API
+Route::get('/api/v1/users/{id?}', [
+    'middleware' => 'auth.basic',
+    function($id = null) {
+        //get users
+    if ($id == null) {
+        $users = App\User::all(array('id', 'name', 'email'));
+    } else {
+        $users = App\User::find($id, array('id', 'name', 'email'));
+    }
+    return Response::json(array(
+                'error' => false,
+                'users' => $users,
+                'status_code' => 200
+            ));
+    }
+]);
